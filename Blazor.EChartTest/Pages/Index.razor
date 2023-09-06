@@ -1,26 +1,17 @@
 ﻿@page "/"
+@using ScatterSeries = Blazor.ECharts.Options.Series.Scatter
 
-<PageTitle>Index</PageTitle>
+<PageTitle>EChart</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1>EChart Test</h1>
+
 <div class="chart-container">
-<EBar Option="option" Style="width: 100%; height: 720px; margin-top: 20px; margin-right: 20px;" EventTypes="eventTypes"></EBar>
-
-@if (callbackArgs != null)
-{
-    <div>
-        <p>EventType : @callbackArgs.EventType</p>
-        <p>@((MarkupString)callbackArgs.ToString().Replace(";", ";<br/>"))</p>
-    </div>
-}
+    <EScatter Option="@option" Class="chart-fill"></EScatter>
 </div>
 
 @code {
-    private EChartsOption<Blazor.ECharts.Options.Series.Bar.Bar>? option;
 
-    private EchartsEventArgs? callbackArgs;
-
-    private List<EventType> eventTypes = new List<EventType> { EventType.click, EventType.brush, EventType.brushselected };
+    private EChartsOption<ScatterSeries.Scatter>? option;
 
     protected override async Task OnInitializedAsync()
     {
@@ -28,156 +19,55 @@
 
         option = new()
             {
-                Color = new[] { "#8EC9EB" },
-                Legend = new() { Data = "고도(km)와 기온(°C)의 관계" },
-                Tooltip = new()
+                XAxis = new() {
+                new()
+            },
+                YAxis = new() {
+                new()
+            },
+                Legend = new()
                 {
-                    Trigger = TooltipTrigger.Axis,
-                    Formatter = "Temperature : <br/>{b}km : {c}°C"
-                },
-                Grid = new()
-                {
-                    new() { Left = "3%", Right = "4%", Bottom = "3%", ContainLabel = true }
-                },
-                XAxis = new()
-                {
-                    new() { Type = AxisType.Value, SplitLine = new SplitLine() { Show = false }, AxisLabel = new AxisLabel() { Formatter = "{value} °C" } }
-                },
-                YAxis = new()
-                {
-                    new() { Type = AxisType.Category, AxisLine = new AxisLine() { OnZero = false }, AxisLabel = new AxisLabel() { Formatter = "{value} km" }, BoundaryGap = true, Data = new[] { "0", "10", "20", "30", "40", "50", "60", "70", "80" } }
+                    Data = new[] { "범례1", "범례2" }
                 },
                 Series = new()
+            {
+                new ScatterSeries.Scatter()
                 {
-                    new Blazor.ECharts.Options.Series.Bar.Bar()
-                    {
-                        Name = "고도(km)와 온도(°C) 변화의 관계",
-                        Smooth = true,
-                        BarCategoryGap = 25,
-                        LineStyle = new { normal = new { width = 3, shadowColor = "rgba(0,0,0,0.4)", shadowBlur = 10, shadowOffsetY = 10 } },
-                        Data = new[] { 15, -50, -56.5, -46.5, -22.1, -2.5, -27.7, -55.7, -76.5 }
+                    Name = "범례1",
+                    Data = new[] {
+                        new[]{ 2.0, 8.04, 10 },
+                        new[]{ 3.0, 6.95, 20 },
+                        new[]{ 23.0, 7.58, 30 },
+                        new[]{ 18.0, 8.81, 15},
+                        new[]{ 12.0, 8.33, 16 },
+                        new[]{ 4.0, 9.96, 5 },
+                        new[]{ 16.0, 7.24, 18 },
+                        new[]{ 14.0, 4.26, 35 },
+                        new[]{ 12.0, 10.84, 20 },
+                        new[]{ 10.0, 4.82, 50 },
+                        new[]{ 7.0, 5.68, 13 }
                     }
                 },
-                Graphic = new()
+                new ScatterSeries.Scatter()
                 {
-                    new GraphicImage()
-                    {
-                        Id = "logo",
-                        Right = 20,
-                        Top = 20,
-                        Z = -10,
-                        Bounding = "raw",
-                        Style = new()
-                        {
-                            Image = "http://echarts.baidu.com/images/favicon.png",
-                            Width = 150,
-                            Height = 150,
-                            Opacity = 0.4
-                        }
-                    },
-                    new GraphicGroup()
-                    {
-                        Rotation = Math.PI / 4,
-                        Bounding = "raw",
-                        Right = 110,
-                        Bottom = 110,
-                        Z = 100,
-                        Children = new()
-                        {
-                            new
-                            {
-                                type = "rect",
-                                left = "center",
-                                top = "center",
-                                z = 100,
-                                shape = new
-                                {
-                                    width = 400,
-                                    height = 50
-                                },
-                                style = new
-                                {
-                                    fill = "rgba(0,0,0,0.3)"
-                                }
-                            },
-                            new
-                            {
-                                type = "text",
-                                left = "center",
-                                top = "center",
-                                z = 100,
-                                style = new
-                                {
-                                    fill = "#fff",
-                                    text = "ECHARTS BAR CHART",
-                                    font = "bold 26px Microsoft YaHei"
-                                }
-                            }
-                        }
-                    },
-                    new GraphicGroup()
-                    {
-                        Left = "10%",
-                        Top = "center",
-                        Children = new()
-                        {
-                            new
-                            {
-                                type = "rect",
-                                z = 100,
-                                left = "center",
-                                top = "middle",
-                                shape = new
-                                {
-                                    width = 190,
-                                    height = 90
-                                },
-                                style = new
-                                {
-                                    fill = "#fff",
-                                    stroke = "#555",
-                                    lineWidth = 2,
-                                    shadowBlur = 8,
-                                    shadowOffsetX = 3,
-                                    shadowOffsetY = 3,
-                                    shadowColor = "rgba(0,0,0,0.3)"
-                                }
-                            },
-                            new
-                            {
-                                type = "text",
-                                z = 100,
-                                left = "center",
-                                top = "middle",
-                                style = new
-                                {
-                                    fill = "#333",
-                                    text = string.Join("\n", new[]{
-                                    "가로축은 온도(°C)를 나타냅니다.",
-                                    "세로축은 높이를 나타내며, 단위는 km입니다",
-                                    "오른쪽 상단에 그림으로 만들어진 워터마크가 있습니다",
-                                    "이 텍스트 블록은 각 다이어그램에 배치될 수 있습니다.",
-                                    "위치의 종류"
-                                }),
-                                    font = "14px Microsoft YaHei"
-                                }
-                            }
-                        }
+                    Name= "범례2",
+                    Data = new[] {
+                        new[]{ 1.0, 2.04 },
+                        new[]{ 2.0, 15.95 },
+                        new[]{ 26.0, 17.58 },
+                        new[]{ 13.0, 7.81 },
+                        new[]{ 22.0, 5.33 },
+                        new[]{ 14.0, 9.96 },
+                        new[]{ 6.0, 4.24 },
+                        new[]{ 4.0, 4.26 },
+                        new[]{ 22.0, 13.84 },
+                        new[]{ 16.0, 14.82 },
+                        new[]{ 17.0, 15.68 }
                     }
-                },
-                Brush = new()
-                {
-                    XAxisIndex = "all",
-                    ThrottleType = "debounce",
-                    ThrottleDelay = 600
                 }
+            }
             };
 
         await base.OnInitializedAsync();
-    }
-
-    private void OnEchartsEvent(EchartsEventArgs args)
-    {
-        callbackArgs = args;
     }
 }
