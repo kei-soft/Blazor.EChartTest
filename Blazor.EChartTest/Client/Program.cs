@@ -13,6 +13,7 @@ namespace Blazor.EChartTest
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
+            // EChart
             builder.Services.AddECharts();
 
             await builder.Build().RunAsync();
